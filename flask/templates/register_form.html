@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>RegistrationForm</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- LINEARICONS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='fonts/linearicons/style.css') }}">
+	<!-- STYLE CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+	<div class="wrapper">
+		<div class="inner">
+			<img src="{{ url_for('static', filename='images/image-1.png') }}" alt="" class="image-1">
+			<form action="/add_employee" onsubmit="return validateForm()" method="POST" required>
+				<h3>New Employees Account?</h3>
+				<div class="form-holder">
+					<span class="lnr lnr-user"></span>
+					<input type="text" class="form-control username" id="first_name" name='first_name'
+						placeholder="First Name">
+				</div>
+				<div class="form-holder">
+					<span class="lnr lnr-phone-handset"></span>
+					<input type="text" class="form-control username" id="last_name" name='last_name'
+						placeholder="Last Name">
+				</div>
+				<div class="form-holder">
+					<span class="lnr lnr-envelope"></span>
+					<input type="text" class="form-control" id='email' name='email' placeholder="EMail">
+				</div>
+				<div class="form-holder">
+					<span class="lnr lnr-lock"></span>
+					<input type="Password" class="form-control" name='password' id="password" placeholder="Password">
+				</div>
+				<div class="form-holder">
+					<span class="lnr lnr-lock"></span>
+					<input type="password" class="form-control" id="conpassword" name='confirm_password'
+						placeholder="Confirm Password">
+				</div>
+				<button type="submit">
+					<span>Register</span>
+				</button>
+			</form>
+			<img src="{{ url_for('static', filename='images/image-2.png') }}" alt="" class="image-2">
+		</div>
+	</div>
+	<script>
+		function validateForm()
+		{
+			var first_name = $('#first_name').val();
+			var last_name = $('#last_name').val();
+			var email = $('#email').val();
+			var password = $('#password').val();
+			var confirm_password = $('#conpassword').val();
+			var regEx = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+			if (first_name == '' || first_name == null)
+			{
+				alert("Enter first name");
+				return false;
+			} 
+			else if (last_name == '' || last_name == null) 
+			{
+				alert("Enter last name");
+				return false;
+			} 
+			else if (email == '' || email == null) 
+			{
+				alert("Enter email");
+				return false;
+			}
+			else if (password == '' || password == null) 
+			{
+				alert("Enter password");
+				return false;
+			} 
+			else if (confirm_password == '' || confirm_password == null) 
+			{
+				alert('Enter confirm password');
+				return false;
+			} 
+			else if (/\d/.test(first_name))
+			{
+				alert('User name not allowed numbers ');
+				return false;
+
+			}
+			else if (/\d/.test(last_name))
+			{
+				alert('User name not allowed numbers ');
+				return false;
+
+			} 
+			else if (password != confirm_password)
+			{
+				alert("Password does not match ");
+				return false;
+			}
+			else if (! regEx.test(email))
+			{
+				alert("Invalid email address!");
+				return false;
+			}
+		}
+
+	</script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</html>

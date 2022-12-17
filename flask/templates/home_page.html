@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Employee records</title>
+<link rel="stylesheet"  href="{{ url_for('static', filename='css/font.css') }}">
+<link rel="stylesheet"  href="{{ url_for('static', filename='css/stackpath.css') }}">
+<link rel="stylesheet"  href="{{ url_for('static', filename='css/font_2.css') }}">
+<link rel="stylesheet"  href="{{ url_for('static', filename='css/font-awesome.css') }}">
+<link rel="stylesheet"  href="{{ url_for('static', filename='css/home_page.css') }}">
+<script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+<script src="{{ url_for('static', filename='js/popper.js') }}"></script>
+<script src="{{ url_for('static', filename='js/ajax.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+</head>
+<body>
+<div class="container-lg">
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-8"><h2>Employee <b>Details</b></h2></div>
+                    <div class="col-sm-4">
+                        <a class="btn btn-info add-new" href="{{url_for('register')}}"><i class="fa fa-plus"></i> Add Employee</a>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 6%;">S.no</th>
+                        <th style="width: 6%;">EMP ID</th>
+                        <th>Employee First Name</th>
+                        <th>Employee Last Name</th>
+                        <th>Employee Email ID</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in result %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ data.0 }}</td>
+                        <td>{{ data.1 }}</td>
+                        <td>{{ data.2 }}</td>
+                        <td>{{ data.3 }}</td>
+                        <td>
+                            <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
+                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                            <a href='/delete_employee/{{data.0}}' class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div> 
+<script>
+	$(document).on("click", ".add", function()
+    {
+		var empty = false;
+        var user_data = [];
+		var input = $(this).parents("tr").find('input[type="text"]');
+		$(this).parents("tr").find(".error").first().focus();
+		if(!empty)
+        ṇ{
+			input.each(function()
+            {
+                user_data.push($(this).val());
+				$(this).parent("td").html($(this).val());
+			});			
+			$(this).parents("tr").find(".add, .edit").toggle();
+			$(".add-new").removeAttr("disabled");
+		}
+        $.ajax({
+            'url': "/edit_data",
+            'type': 'POST',
+            'contentType': "application/json",
+            'dataType': 'json',
+            'data': JSON.stringify(user_data),
+        })
+        console.log('user_data');		
+    });
+	// Edit row on edit button click
+	$(document).on("click", ".edit", function()
+    {		
+        $(this).parents("tr").find("td:not(:last-child)").each(function()
+        {
+			$(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
+		});		
+		$(this).parents("tr").find(".add, .edit").toggle();
+		$(".add-new").attr("disabled", "disabled");
+    });
+</script>
+</body>
+</html>
